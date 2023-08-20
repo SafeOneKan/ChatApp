@@ -9,35 +9,38 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { collection, getDocs, query, where } from "firebase/firestore";
 import {
   ProviderProps,
   UserProps,
   conValueProps,
 } from "../Interfaces/Intreface";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const AuthCon = createContext<conValueProps>({} as conValueProps);
+
+const createUser = async (email: string, password: string) => {
+  try {
+    const cred = await createUserWithEmailAndPassword(Auth, email, password);
+    return cred;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+};
+
+const logUser = (email: string, password: string) => {
+  return signInWithEmailAndPassword(Auth, email, password);
+};
+
+const provider = new GoogleAuthProvider();
+
+const SignInGoogle = () => {
+  return signInWithPopup(Auth, provider);
+};
 
 export const ConProvider: FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<conValueProps["user"]>(null);
   const [Users, setUsers] = useState<conValueProps["Users"]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  //Create A user
-
-  const createUser = async (email: string, password: string) => {
-    try {
-      const cred = await createUserWithEmailAndPassword(Auth, email, password);
-      return cred;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
-
-  const logUser = (email: string, password: string) => {
-    return signInWithEmailAndPassword(Auth, email, password);
-  };
-
   useEffect(() => {
     onAuthStateChanged(Auth, (currentUser) => {
       if (currentUser) {
@@ -49,7 +52,6 @@ export const ConProvider: FC<ProviderProps> = ({ children }) => {
         };
 
         setUser(toadd);
-        setIsLoading(false);
       } else {
         setUser(null);
       }
@@ -72,21 +74,14 @@ export const ConProvider: FC<ProviderProps> = ({ children }) => {
         })
       );
     };
-    if (!isLoading && user) {
+    if (user) {
       initialiseUsers();
     }
-  }, [user, isLoading]);
-
-  const provider = new GoogleAuthProvider();
-
-  const SignInGoogle = () => {
-    return signInWithPopup(Auth, provider);
-  };
-
+  }, [user]);
+  //Create A user
   const LogOut = () => {
     signOut(Auth);
     setUser(null);
-    setUsers([]);
   };
 
   const contextVal: conValueProps = {
@@ -96,7 +91,6 @@ export const ConProvider: FC<ProviderProps> = ({ children }) => {
     createUser,
     logUser,
     Users,
-    isLoading,
   };
 
   return <AuthCon.Provider value={contextVal}>{children}</AuthCon.Provider>;

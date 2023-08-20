@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-
 import React, { FC } from "react";
 import { UserAuth } from "../Context/AuthContext";
 
@@ -10,7 +9,7 @@ interface PrivateProps {
 const Private: FC<PrivateProps> = ({ children }) => {
   const context = UserAuth();
 
-  if (!context?.isLoading && !context?.user) {
+  if (!context.user) {
     return <Navigate to="/login" />;
   }
   return children;

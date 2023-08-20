@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserCredential } from "firebase/auth";
 import { Timestamp } from "firebase/firestore";
 import { Convosmanager } from "../ConvosManager";
@@ -35,9 +36,8 @@ export interface conValueProps {
     password: string
   ) => Promise<UserCredential | null>;
   user: UserProps | null;
-  Users: UserProps[] | [];
   logUser: (email: string, password: string) => Promise<UserCredential>;
-  isLoading: boolean;
+  Users: UserProps[];
 }
 
 export interface ChatsContextProps {
@@ -52,8 +52,6 @@ export interface ChatsContextProps {
   setSelectedConvoId: React.Dispatch<React.SetStateAction<string>>;
   convosArray: any[];
   setConvosArray: React.Dispatch<React.SetStateAction<any[]>>;
-  toggleSend: boolean;
-  toogle: () => void;
   msgs: MessagesProps[];
   setMsgs: React.Dispatch<React.SetStateAction<MessagesProps[]>>;
 }

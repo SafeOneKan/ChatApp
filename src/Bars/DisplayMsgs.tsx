@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useRef } from "react";
 import { DisplayProps } from "../Interfaces/Intreface";
 import { useChatsContext } from "../Context/ChatsContext";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -37,7 +38,7 @@ const Chats: React.FC = () => {
     };
 
     fetchAndConvertConvos();
-  }, [Authcontext?.user, ChatContext?.userConvos]);
+  }, [Authcontext.user, ChatContext, ChatContext?.userConvos]);
 
   useEffect(() => {
     ChatContext?.setSelectedConvoData(
@@ -45,14 +46,14 @@ const Chats: React.FC = () => {
         (convo) => convo.id === ChatContext.selectedConvoId
       )[0]
     );
-  }, [ChatContext?.selectedConvoId, ChatContext?.convosArray]);
+  }, [ChatContext.selectedConvoId, ChatContext?.convosArray, ChatContext]);
 
   useEffect(() => {
     if (ChatContext?.selectedConvoId) {
       ChatContext?.setMsgs(ChatContext.selectedConvoData.messages);
       console.log(ChatContext.selectedConvoData, ChatContext.msgs);
     }
-  }, [ChatContext?.selectedConvoData]);
+  }, [ChatContext, ChatContext.selectedConvoData]);
   const handleInputChange = (e: any, value: string) => {
     console.log(e);
     const selected = Authcontext?.Users.find(
@@ -122,32 +123,29 @@ const Chats: React.FC = () => {
           }}
         />
       </div>
-      {!Authcontext?.isLoading &&
-        Authcontext?.user &&
-        ChatContext &&
-        msgspannel.length > 0 && (
-          <ul className="convo-list-cont">
-            {msgspannel.map((convo) => (
-              <li
-                onClick={() => {
-                  handleConvoSelect(convo.id);
-                }}
-                className={`convo-list ${
-                  ChatContext?.selectedConvoId === convo.id ? "selected" : ""
-                }`}
-                key={convo.id}
-              >
-                <Avatar src={convo?.participant?.photoURL || undefined} />
-                <div className="info">
-                  <div className="name">{convo?.participant?.displayName}</div>
-                  <div className="lastmsg">
-                    {convo?.participant?.latest_message}
-                  </div>
+      {Authcontext.user && ChatContext && msgspannel.length > 0 && (
+        <ul className="convo-list-cont">
+          {msgspannel.map((convo) => (
+            <li
+              onClick={() => {
+                handleConvoSelect(convo.id);
+              }}
+              className={`convo-list ${
+                ChatContext?.selectedConvoId === convo.id ? "selected" : ""
+              }`}
+              key={convo.id}
+            >
+              <Avatar src={convo?.participant?.photoURL || undefined} />
+              <div className="info">
+                <div className="name">{convo?.participant?.displayName}</div>
+                <div className="lastmsg">
+                  {convo?.participant?.latest_message}
                 </div>
-              </li>
-            ))}
-          </ul>
-        )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

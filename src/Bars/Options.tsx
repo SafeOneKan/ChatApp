@@ -9,6 +9,7 @@ import {
 import { UserAuth } from "../Context/AuthContext";
 
 import { useTheme } from "../Context/ThemeContext";
+import { Avatar } from "@mui/material";
 
 interface props {
   OnselectOption: (option: string) => void;
@@ -34,10 +35,9 @@ const Options: FC<props> = ({ isDarkTheme, OnselectOption }) => {
           <FontAwesomeIcon className="op-ico" icon={faGear} />
         </button>
         <button>
-          <img
+          <Avatar
             className="profil-pic"
             src={context?.user?.photoURL ? context.user.photoURL : undefined}
-            alt="profile"
           />
         </button>
       </div>

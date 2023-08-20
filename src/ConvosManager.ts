@@ -28,9 +28,8 @@ export class Convosmanager {
 
       const convoDoc = doc(this.ConversationsCollecRef, conversationId);
       const existingConvo = await getDoc(convoDoc);
-      console.log(existingConvo);
+
       if (existingConvo.exists()) {
-        console.log("false");
         return false;
       }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import google from "../static/images/72al1e4ro5hf516deodneiddfc.png";
 import { UserAuth } from "../Context/AuthContext";
@@ -17,29 +18,28 @@ import { db, storage } from "../Configs/firebase-config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { UserCredential, updateProfile } from "firebase/auth";
 
+const insertUser = (
+  usercred: UserCredential,
+  downloadURL: string | null = null
+) => {
+  setDoc(doc(db, "users", usercred.user.uid), {
+    uid: usercred.user.uid,
+    displayName: usercred.user.displayName,
+    email: usercred.user.email,
+    photoURL: downloadURL ? downloadURL : usercred.user.photoURL,
+
+    friends: [],
+  });
+};
+
 const Signin = () => {
   const context = UserAuth();
-
-  const insertUser = (
-    usercred: UserCredential,
-    downloadURL: string | null = null
-  ) => {
-    setDoc(doc(db, "users", usercred.user.uid), {
-      uid: usercred.user.uid,
-      displayName: usercred.user.displayName,
-      email: usercred.user.email,
-      photoURL: downloadURL ? downloadURL : usercred.user.photoURL,
-
-      friends: [],
-    });
-  };
-
   const { SignInGoogle } = context;
   const navigate = useNavigate();
   const handleSigninGoogle = async () => {
     try {
       const usercred = await SignInGoogle();
-      if (usercred?.user) {
+      if (usercred.user) {
         const usersCollectionRef = collection(db, "users");
         const q = query(
           usersCollectionRef,
@@ -52,7 +52,7 @@ const Signin = () => {
         }
       }
     } catch (e) {
-      alert(e);
+      navigate("/signin");
     }
   };
 
@@ -64,11 +64,9 @@ const Signin = () => {
     const profil_pic_file = e.target[3].files[0];
 
     try {
-      const usercred = await context?.createUser(Email, Password);
-
+      const usercred = await context.createUser(Email, Password);
       const storef = ref(storage, Name);
       const pic = await uploadBytes(storef, profil_pic_file);
-      console.log(pic);
       if (usercred) {
         getDownloadURL(pic.ref).then(async (downloadURL) => {
           await updateProfile(usercred.user, {
@@ -80,7 +78,7 @@ const Signin = () => {
         });
       }
     } catch (err) {
-      console.log(err);
+      navigate("/");
     }
   };
 

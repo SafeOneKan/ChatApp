@@ -6,16 +6,18 @@
     background-color: $background;
     .MuiAutocomplete-noOptions {
       background-color: $background;
-      color: $color;
+      color: if($isDark, $color-dark, $color-light);
     }
     .MuiAutocomplete-option {
       background-color: $background;
-      color: $color;
+
       &:hover {
         @if ($isDark) {
-          background-color: lighten($background, 10%);
+          background-color: lighten($Background-color-dark, 10%);
+          color: white;
         } @else {
-          background-color: darken($background, 10%);
+          background-color: darken($Background-color-light, 10%);
+          color: black;
         }
       }
     }
@@ -42,7 +44,7 @@
     flex-direction: column;
     height: 100%;
     overflow-y: scroll;
-    scrollbar-width: thin;
+
     &::-webkit-scrollbar {
       width: 2px;
     }
@@ -78,8 +80,6 @@
         .name {
           font-size: 20px;
         }
-        .lastmsg {
-        }
       }
 
       cursor: pointer;
@@ -106,12 +106,14 @@
   &.light {
     background-color: $Background-color-light;
     @include Context($Background-color-light, $color-light, false);
+    @include autoCompl($Background-color-light, $color-dark, false);
     * {
       color: $color-light;
     }
   }
   &.dark {
     @include Context($Background-color-dark, $color-dark, true);
+    @include autoCompl($Background-color-dark, $color-dark, true);
     background-color: $Background-color-dark;
     * {
       color: $color-dark;
@@ -131,6 +133,53 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 40px;
+    .mode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    > button {
+      font-size: 30px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+.logoutconf {
+  background-color: #88888898;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  .conf {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+    p {
+      font-size: 20px;
+    }
+    > div {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      > button {
+        padding: 10px 20px;
+        border: none;
+        background: none;
+        border-radius: 20px;
+        cursor: pointer;
+        &:active {
+          background-color: rgb(48, 160, 194);
+        }
+      }
+    }
   }
 }

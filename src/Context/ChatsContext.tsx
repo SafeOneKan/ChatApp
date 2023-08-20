@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, createContext, useContext, useEffect, useState } from "react";
 import {
   ChatsContextProps,
@@ -16,11 +17,9 @@ export const ChatsContext: FC<ProviderProps> = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState<UserProps | null>(null);
   const [userConvos, setUserConvos] = useState<any[]>([]);
   const [selectedConvoId, setSelectedConvoId] = useState<string>("");
-  const [toggleSend, setToggleSend] = useState<boolean>(false);
   const context = UserAuth();
   const [selectedConvoData, setSelectedConvoData] = useState<any[]>([]);
   const [convosArray, setConvosArray] = useState<any[]>([]);
-
   const [msgs, setMsgs] = useState<MessagesProps[]>([]);
   const convomanager = new Convosmanager();
 
@@ -53,11 +52,7 @@ export const ChatsContext: FC<ProviderProps> = ({ children }) => {
       unsub();
       // Clean up the listener when the component unmounts
     };
-  }, [context?.user]);
-
-  const toogle = () => {
-    setToggleSend((prev) => !prev);
-  };
+  }, [context.user]);
 
   // useEffect(() => {
   //   const renderconvos = async () => {
@@ -101,8 +96,6 @@ export const ChatsContext: FC<ProviderProps> = ({ children }) => {
     setSelectedConvoId,
     convosArray,
     setConvosArray,
-    toggleSend,
-    toogle,
     msgs,
     setMsgs,
   };
@@ -114,6 +107,7 @@ export const ChatsContext: FC<ProviderProps> = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useChatsContext = () => {
   return useContext(ChatContext);
 };
