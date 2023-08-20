@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState } from "react";
 import { useChatsContext } from "../Context/ChatsContext";
 import { UserAuth } from "../Context/AuthContext";
@@ -11,6 +12,7 @@ const MessagesInput: FC<msgInpProps> = () => {
 
   const chatContext = useChatsContext();
   const AuthContext = UserAuth();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSend = async (e: any) => {
     e.preventDefault();
     if (Txt) {
@@ -26,7 +28,6 @@ const MessagesInput: FC<msgInpProps> = () => {
         setTxt("");
 
         // Toggle the toggleSend state (if needed)
-        chatContext?.toogle();
       }
     }
   };
