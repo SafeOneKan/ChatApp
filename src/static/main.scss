@@ -9,6 +9,21 @@ $chat-other-light: rgb(187, 255, 184);
 $chat-user-dark: rgb(213, 122, 255);
 $chat-other-dark: rgb(122, 177, 255);
 
+$breakpoints: (
+  "xs": "width <= 600px",
+  "sm": "600px < width <=1200px",
+  "bg": "width > 1200px",
+);
+
+@mixin breakpoint($used) {
+  $size: map-get($breakpoints, $used);
+  @if ($size) {
+    @media ($size) {
+      @content;
+    }
+  }
+}
+
 * {
   transition: all 0.1s linear;
   margin: 0;

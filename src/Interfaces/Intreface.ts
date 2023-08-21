@@ -38,6 +38,7 @@ export interface conValueProps {
   user: UserProps | null;
   logUser: (email: string, password: string) => Promise<UserCredential>;
   Users: UserProps[];
+  isMobile: boolean;
 }
 
 export interface ChatsContextProps {

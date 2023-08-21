@@ -1,5 +1,4 @@
 import { ConProvider } from "./Context/AuthContext";
-
 import { router } from "./Configs/Router";
 import { RouterProvider } from "react-router-dom";
 import ChatsContext from "./Context/ChatsContext";

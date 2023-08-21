@@ -41,6 +41,8 @@ const SignInGoogle = () => {
 export const ConProvider: FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<conValueProps["user"]>(null);
   const [Users, setUsers] = useState<conValueProps["Users"]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     onAuthStateChanged(Auth, (currentUser) => {
       if (currentUser) {
@@ -56,6 +58,7 @@ export const ConProvider: FC<ProviderProps> = ({ children }) => {
         setUser(null);
       }
     });
+    if (window.innerWidth <= 500) setIsMobile(true);
   }, []);
 
   useEffect(() => {
@@ -91,6 +94,7 @@ export const ConProvider: FC<ProviderProps> = ({ children }) => {
     createUser,
     logUser,
     Users,
+    isMobile,
   };
 
   return <AuthCon.Provider value={contextVal}>{children}</AuthCon.Provider>;

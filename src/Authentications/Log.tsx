@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import google from "../static/images/72al1e4ro5hf516deodneiddfc.png";
 import { UserAuth } from "../Context/AuthContext";
 import "../static/Auth_css/SignIn.scss";
@@ -55,7 +56,7 @@ const Log = () => {
           <span>Sign In With Google</span>
         </button>
         <div>
-          dont'talready have an account ? <Link to="/signin"> Sign In</Link>
+          don't have an account ? <Link to="/signin"> Sign In</Link>
         </div>
       </div>
     </div>
